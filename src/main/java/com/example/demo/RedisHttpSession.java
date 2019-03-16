@@ -12,10 +12,16 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 public class RedisHttpSession  extends WebSecurityConfigurerAdapter{
 
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
-        http.formLogin().successForwardUrl("/home").and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")).permitAll();
+        http.authorizeRequests()
+                .antMatchers("/doLogin").permitAll()
+                .and()
+                .formLogin().successForwardUrl("/home")
+                .and()
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")).permitAll();
     }
 
 
@@ -24,6 +30,7 @@ public class RedisHttpSession  extends WebSecurityConfigurerAdapter{
     public RedisConnectionFactory redisConnectionFactory() {
         return new LettuceConnectionFactory();
     }
+
 
 
 
