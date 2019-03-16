@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,10 @@ public class LoginController {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @GetMapping("/loginPage")
     public String login() {
@@ -33,13 +38,12 @@ public class LoginController {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-//        if (userDetails != null && passwordEncoder.matches(password, userDetails.getPassword())) {
 
         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
 
         authRequest.setDetails(userDetails);
-//        authenticationManager.authenticate(authRequest);
-//            authenticationManager.authenticate(authRequest);
+        authenticationManager.authenticate(authRequest);
+
         return "redirect:/home";
 
     }
