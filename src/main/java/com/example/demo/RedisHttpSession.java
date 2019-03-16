@@ -15,7 +15,7 @@ public class RedisHttpSession  extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
-        http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")).permitAll();
+        http.formLogin().successForwardUrl("/home").and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")).permitAll();
     }
 
 
