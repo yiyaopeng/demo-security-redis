@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
@@ -19,8 +20,7 @@ public class LoginController {
     private UserDetailsService userDetailsService;
 
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+
 
     @GetMapping("/loginPage")
     public String login() {
@@ -42,7 +42,7 @@ public class LoginController {
         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(email, password);
 
         authRequest.setDetails(userDetails);
-        authenticationManager.authenticate(authRequest);
+        SecurityContextHolder.getContext().setAuthentication(authRequest);
 
         return "redirect:/home";
 

@@ -65,7 +65,7 @@ public class RedisHttpSession  extends WebSecurityConfigurerAdapter{
     }
 
     @Bean
-    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
+    public  InMemoryUserDetailsManager inMemoryUserDetailsManager() {
         final Properties users = new Properties();
         users.put("user","password,ROLE_USER,enabled"); //add whatever other user you need
         return new InMemoryUserDetailsManager(users);
